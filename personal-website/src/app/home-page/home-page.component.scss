@@ -1,0 +1,93 @@
+@import "../shared-scss/shared-scss.scss";
+
+#mainContent {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+#mainContent > section {
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+#mainContent > section:nth-child(even) {
+    background: #F4EBD0;
+    align-items: end; 
+}
+
+.welcomeBox {
+    background-color: $base-cream;
+    height: 15%;
+    width: 30%;
+    min-width: 15em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        color: $base-black;
+        font-size: 1.5em;
+        padding: 10px;
+    }
+}
+
+.footerBox {
+    background-color: $base-black;
+    height: 21px;
+    min-width: 8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    margin: auto;
+    p {
+        color: $base-cream;
+        font-size: 1.0em;
+        padding: 7px;
+    }
+}
+
+.centeredButton {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 200px;
+    margin-top: -75px;
+    p {
+        margin-top: 15px;
+        color: $base-black;
+    }
+
+}
+
+.menu {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.toolsHeader {
+    color: $base-black;
+    text-align: center;
+    font-size: 5em;
+    margin-top: -40px;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.shown {
+    transition: 1.5s; 
+    opacity: 1;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+

@@ -1,0 +1,37 @@
+<div id="mainContent">
+    <section>
+        <div class="menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu with links">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <a href="/">
+                    <button mat-menu-item>
+                        <mat-icon>home</mat-icon>
+                        <span>Home</span>
+                    </button>
+                </a>
+                <button mat-menu-item>
+                <mat-icon>code</mat-icon>
+                <span>Source code</span>
+                </button>
+              </mat-menu>
+            </div>
+        <div class="welcomeBox">
+            <p>Hello There</p>
+        </div>
+    </section>
+    <section>
+        <h1 class="toolsHeader">Tools</h1>
+        <div #buttonDiv></div> 
+        <div [ngClass]="{'hidden': !isTestButtonScrolledIntoView, 'shown': isTestButtonScrolledIntoView}" class="centeredButton">
+                <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
+                    <mat-icon>directions_car</mat-icon>
+                </button>
+            <p>F1 Data Tool</p>
+        </div>
+            <div class="footerBox">
+                <p>Made by Trevor Waite</p>
+            </div>
+    </section>
+</div>
