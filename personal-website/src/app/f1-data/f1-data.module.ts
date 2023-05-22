@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { F1DataRoutingModule } from './f1-data-routing.module';
 import { F1DataComponent } from './f1DataComponent/f1-data.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { F1DataComponent } from './f1DataComponent/f1-data.component';
   ],
   imports: [
     CommonModule,
-    F1DataRoutingModule
+    F1DataRoutingModule,
+    MatSelectModule
   ]
 })
 export class F1DataModule { }

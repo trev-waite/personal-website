@@ -1,11 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { HomePageComponent } from './home-page.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HomeRoutingModule } from './home-routing.module';
-import { MatMenuModule } from '@angular/material/menu';
+import { HomePageComponent } from './homePageComponent/home-page.component';
 
 
 
@@ -18,8 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
     HttpClientModule,
     MatIconModule,
     MatButtonModule,
-    HomeRoutingModule,
-    MatMenuModule
+    HomeRoutingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

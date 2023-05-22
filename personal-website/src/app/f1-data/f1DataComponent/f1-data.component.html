@@ -1,1 +1,13 @@
-<p>f1-data works!</p>
+<div class="inputContainer">
+    <div class="driver1">
+        <h4>Driver 1</h4>
+        <mat-form-field>
+            <mat-label>Driver 1</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let driver of driverNames" [value]="driver">
+                    {{driver}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

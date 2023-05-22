@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DRIVER_NAMES } from './constants/driver-names.constants';
 
 @Component({
   selector: 'app-f1-data',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./f1-data.component.scss']
 })
 export class F1DataComponent {
+
+  public driverNames = DRIVER_NAMES;
 
 }
