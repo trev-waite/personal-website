@@ -18,13 +18,12 @@
               </mat-menu>
             </div>
         <div class="welcomeBox">
-            <p>Hello There</p>
+            <p>"Hello There"</p>
         </div>
     </section>
     <section>
-        <h1 class="toolsHeader">Tools</h1>
-        <div #buttonDiv></div> 
-        <div [ngClass]="{'hidden': !isTestButtonScrolledIntoView, 'shown': isTestButtonScrolledIntoView}" class="centeredButton">
+        <h1 class="toolsHeader">stuff.</h1>
+        <div #buttonDiv [ngClass]="{'hidden': !isTestButtonScrolledIntoView, 'shown': isTestButtonScrolledIntoView}" class="centeredButton">
                 <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
                     <mat-icon>directions_car</mat-icon>
                 </button>

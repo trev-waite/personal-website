@@ -24,12 +24,14 @@ public ngOnInit(): void {
    Art by Hayley Jane Wakenshaw`);
 }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:wheel', ['$event'])
   isScrolledIntoView(){
     if (this.buttonDiv){
       const rect = this.buttonDiv.nativeElement.getBoundingClientRect();
-      const topShown = rect.top >= 0;
-      this.isTestButtonScrolledIntoView = topShown;
+      const windowHeight = window.innerHeight;
+      const elementShown = rect.top >= 0 && rect.bottom <= windowHeight;
+      
+      this.isTestButtonScrolledIntoView = elementShown;
     }
   }
 }
