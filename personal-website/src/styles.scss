@@ -12,15 +12,15 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$personal-website-primary: mat.define-palette(mat.$amber-palette);
-$personal-website-accent: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
+$personal-website-primary: mat.m2-define-palette(mat.$m2-amber-palette);
+$personal-website-accent: mat.m2-define-palette(mat.$m2-light-blue-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$personal-website-warn: mat.define-palette(mat.$deep-orange-palette);
+$personal-website-warn: mat.m2-define-palette(mat.$m2-deep-orange-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$personal-website-theme: mat.define-light-theme((
+$personal-website-theme: mat.m2-define-light-theme((
   color: (
     primary: $personal-website-primary,
     accent: $personal-website-accent,
