@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@sharedStyles/*": ["src/app/shared-scss/*"],
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,

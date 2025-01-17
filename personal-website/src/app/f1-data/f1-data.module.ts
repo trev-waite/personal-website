@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { F1DataRoutingModule } from './f1-data-routing.module';
 import { F1DataComponent } from './f1DataComponent/f1-data.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     CommonModule,
     F1DataRoutingModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule
   ]
 })
 export class F1DataModule { }

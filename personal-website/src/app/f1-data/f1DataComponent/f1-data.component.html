@@ -1,13 +1,29 @@
 <div class="inputContainer">
-    <div class="driver1">
-        <h4>Driver 1</h4>
-        <mat-form-field>
-            <mat-label>Driver 1</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let driver of driverNames" [value]="driver">
-                    {{driver}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+
+    <!-- <h4>Driver 1</h4> -->
+    <mat-form-field>
+        <mat-label>Driver</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let driver of driverNames" [value]="driver">
+                {{driver}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Year</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let driver of driverNames" [value]="driver">
+                {{driver}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Race</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let driver of driverNames" [value]="driver">
+                {{driver}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-flat-button>Get Data</button>
 </div>
