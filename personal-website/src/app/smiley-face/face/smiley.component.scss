@@ -1,0 +1,42 @@
+@import "../../shared-scss/shared-scss.scss";
+
+.smiley-face {
+  width: 100px;
+  height: 100px;
+  background-color: #F4EBD0;
+  border-radius: 50%;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.eye {
+  position: relative;
+  top: 30px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.left-eye {
+  float: left;
+  margin-left: 20px;
+}
+
+.right-eye {
+  float: right;
+  margin-right: 20px;
+}
+
+.pupil {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  transition: transform 0.1s ease-out;
+}

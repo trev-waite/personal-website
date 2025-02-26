@@ -7,13 +7,17 @@
     <section>
         <h1 class="toolsHeader">stuff.</h1>
         <div #buttonDiv [ngClass]="{'hidden': !isTestButtonScrolledIntoView, 'shown': isTestButtonScrolledIntoView}" class="centeredButton">
-                <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
-                    <mat-icon>directions_car</mat-icon>
-                </button>
+            <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
+                <mat-icon>directions_car</mat-icon>
+            </button>
             <p>F1 Data Tool</p>
+            <button class="smiley-button" routerLink="/smiley-face" mat-fab color="$base-black" aria-label="Button to Smiley Face Component">
+                <mat-icon>sentiment_satisfied</mat-icon>
+            </button>
+            <p>Smiley Face Tool</p>
         </div>
-            <div class="footerBox">
-                <p>Made by Trevor Waite</p>
-            </div>
+        <div class="footerBox">
+            <p>Made by Trevor Waite</p>
+        </div>
     </section>
 </div>

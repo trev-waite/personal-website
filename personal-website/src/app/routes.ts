@@ -9,5 +9,9 @@ export const routes: Routes = [{
     loadChildren: () => import('./f1-data/f1-data.module').then(m => m.F1DataModule)
 },
 {
+    path: 'smiley-face',
+    loadComponent: () => import('./smiley-face/blob-stuff.component').then(m => m.BlobStuffComponent)
+},
+{
     path: '**', redirectTo: '',
 }];

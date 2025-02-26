@@ -1,0 +1,16 @@
+<!-- Smiley Face -->
+<ng-container class="base">
+  <div class="container">
+    <div class="square">
+      <div *ngFor="let blob of blobs"
+           class="blob"
+           [style.left.px]="blob.x - blob.size / 2"
+           [style.top.px]="blob.y - blob.size / 2"
+           [style.width.px]="blob.size"
+           [style.height.px]="blob.size"
+           [style.transform]="'scale(' + (1/blob.squish) + ',' + blob.squish + ')'"
+           (click)="splitBlob(blob.id)">
+      </div>
+    </div>
+  </div>
+</ng-container>
