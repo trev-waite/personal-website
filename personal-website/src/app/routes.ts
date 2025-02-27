@@ -13,5 +13,9 @@ export const routes: Routes = [{
     loadComponent: () => import('./smiley-face/blob-stuff.component').then(m => m.BlobStuffComponent)
 },
 {
+    path: 'racing-game',
+    loadComponent: () => import('./racing-game/racing-game.component').then(m => m.RacingGameComponent)
+},
+{
     path: '**', redirectTo: '',
 }];

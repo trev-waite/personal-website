@@ -212,7 +212,7 @@ html {
       tertiary: $tertiary-palette,
       theme-type: light
     ),
-    typography: Roboto,
+    typography: "Roboto",
     density: 0
   ));
 }
@@ -229,4 +229,4 @@ p {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Roboto" }
