@@ -98,14 +98,6 @@ export class AiChatComponent implements OnInit, OnDestroy {
       lastMessage.htmlContent = this.sanitizeAndRenderMarkdown(lastMessage.content);
       this.messages.set([...this.messages()]);
       this.scrollToBottom();
-    } else {
-      this.messages.update(msgs => [...msgs, {
-        role: 'assistant',
-        content: content || 'Loading...',
-        htmlContent: this.sanitizeAndRenderMarkdown(content || ''),
-        isStreaming: true
-      }]);
-      this.scrollToBottom();
     }
   }
 
@@ -141,15 +133,23 @@ export class AiChatComponent implements OnInit, OnDestroy {
       return;
     }
     
-    console.log('Component: Sending message:', message);
-    
     try {
+      // Add user message
       this.messages.update(msgs => [...msgs, { 
         role: 'user', 
         content: message,
         htmlContent: message
       }]);
+
+      // Immediately add loading message
+      this.messages.update(msgs => [...msgs, {
+        role: 'assistant',
+        content: '',
+        htmlContent: '',
+        isStreaming: true
+      }]);
    
+      // Send via WebSocket
       this.wsService.sendMessage({ 
         type: 'fromClient', 
         content: message 

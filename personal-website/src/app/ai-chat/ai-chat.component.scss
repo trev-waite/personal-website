@@ -36,7 +36,7 @@
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 0.8rem;
+    font-size: 1em;
     opacity: 0.6;
     
     &.connected {
@@ -62,6 +62,7 @@
     max-width: 80%;
     padding: 0.8rem 1rem;
     border-radius: 1rem;
+    font-size: 1em;
     
     &.user-message {
       align-self: flex-end;
@@ -91,6 +92,7 @@
       border: 1px solid rgba(255, 0, 0, 0.2);
       color: #ff6b6b;
       font-style: italic;
+      font-size: 1em;
     }
   }
 }
@@ -109,14 +111,16 @@
 
   input {
     flex: 1;
-    padding: 0.8rem 1rem;
+    padding: 1rem 1.5rem;  // Increased padding
     border: none;
     border-radius: 1.5rem;
     background-color: rgba(255, 255, 255, 0.1);
     color: $base-cream;
+    font-size: 1em;  // Larger text
     
     &::placeholder {
       color: rgba(255, 255, 255, 0.5);
+      font-size: 1em;  // Match input text size
     }
     
     &:focus {
@@ -128,6 +132,28 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+
+  button {
+    mat-icon {
+      font-size: 1.5rem;  // Larger icon
+      width: 1.5rem;
+      height: 1.5rem;
+      color: rgba(255, 255, 255, 0.5);  // Default color
+    }
+
+    &:not([disabled]) mat-icon {
+      color: $base-cream;  // White when enabled
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+
+    // Make button itself larger
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
   }
 }
 
@@ -155,7 +181,7 @@
   }
 
   .text {
-    font-size: 0.9rem;
+    font-size: 1em;
     color: rgba(255, 255, 255, 0.7);
     font-style: italic;
   }
@@ -180,6 +206,7 @@
       padding: 1rem;
       border-radius: 4px;
       overflow-x: auto;
+      font-size: 1em;
     }
 
     code {
@@ -187,10 +214,12 @@
       background-color: rgba(0, 0, 0, 0.1);
       padding: 2px 4px;
       border-radius: 2px;
+      font-size: 1em;
     }
 
     p {
       margin: 0.5em 0;
+      font-size: 1em;
     }
 
     ul, ol {
