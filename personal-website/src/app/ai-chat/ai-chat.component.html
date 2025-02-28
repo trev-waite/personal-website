@@ -1,0 +1,40 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>AI Assistant</h2>
+    <div class="connection-status" [class.connected]="isConnected()">
+      {{ statusText() }}
+    </div>
+  </div>
+
+  <div class="messages-container" #messageContainer>
+    <div class="message-wrapper" *ngFor="let message of messages()">
+      <div class="message" [class.user-message]="message.role === 'user'"
+           [class.assistant-message]="message.role === 'assistant'"
+           [class.error-message]="message.role === 'error'"
+           [class.loading]="message.isStreaming">
+        <div class="message-content">
+          <div [innerHTML]="message.htmlContent"></div>
+          <div class="typing-indicator" *ngIf="message.isStreaming">
+            <div class="dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="text">AI is typing...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input type="text" 
+           [placeholder]="placeholderText()"
+           [(ngModel)]="currentMessage"
+           (keyup.enter)="sendMessage()"
+           [disabled]="!isConnected() || isStreaming()">
+    <button mat-icon-button 
+            (click)="sendMessage()"
+            [disabled]="!isConnected() || isStreaming() || !currentMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

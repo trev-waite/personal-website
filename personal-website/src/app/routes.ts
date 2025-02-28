@@ -17,5 +17,9 @@ export const routes: Routes = [{
     loadComponent: () => import('./racing-game/racing-game.component').then(m => m.RacingGameComponent)
 },
 {
+    path: 'ai-chat',
+    loadComponent: () => import('./ai-chat/ai-chat.component').then(m => m.AiChatComponent)
+},
+{
     path: '**', redirectTo: '',
 }];
