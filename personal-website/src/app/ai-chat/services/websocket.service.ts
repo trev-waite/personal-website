@@ -19,7 +19,7 @@ export class WebSocketService {
   private reconnectAttempts = 0;
   private lastMessageWasError = false;
 
-  private readonly WEBSOCKET_ENDPOINT = '';
+  private readonly WEBSOCKET_ENDPOINT = 'ws://localhost:8765';
   private readonly MAX_RECONNECT_ATTEMPTS = 3;
   private readonly KEEPALIVE_INTERVAL = 30000;
 

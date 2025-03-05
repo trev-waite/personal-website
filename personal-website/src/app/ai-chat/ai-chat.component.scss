@@ -10,6 +10,7 @@
   max-width: 1200px; // Maximum width on large screens
   width: 100%; // Full width on mobile
   padding: 0 1rem; // Add some padding on the sides
+  position: relative;
 
   @media (min-width: 768px) {
     padding: 0 2rem; // More padding on larger screens
@@ -226,5 +227,30 @@
       margin: 0.5em 0;
       padding-left: 1.5em;
     }
+  }
+}
+
+.scroll-button {
+  position: absolute;  // Change from fixed to absolute
+  bottom: 110px;       // Adjust distance from bottom
+  left: 50%;          // Center horizontally
+  transform: translateX(-50%);  // Center adjustment
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(-50%) scale(1.1);  // Add slight scale on hover
+  }
+
+  mat-icon {
+    color: $base-cream;
   }
 }

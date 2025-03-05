@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="messages-container" #messageContainer>
+  <div class="messages-container" #messageContainer (scroll)="onScroll()">
     <div class="message-wrapper" *ngFor="let message of messages()">
       <div class="message" [class.user-message]="message.role === 'user'"
            [class.assistant-message]="message.role === 'assistant'"
@@ -23,6 +23,15 @@
       </div>
     </div>
   </div>
+
+  <button *ngIf="showScrollButton()"
+          mat-mini-fab 
+          class="scroll-button"
+          [class.visible]="showScrollButton()"
+          (click)="scrollToBottom(true)"
+          aria-label="Scroll to bottom">
+    <mat-icon>arrow_downward</mat-icon>
+  </button>
 
   <div class="input-container">
     <input type="text" 

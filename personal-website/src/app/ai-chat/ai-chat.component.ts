@@ -34,6 +34,9 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   connectionStatus = signal<string>('Disconnected');
 
+  private isAtBottom = true;
+  showScrollButton = signal<boolean>(false);
+
   readonly placeholderText = computed(() => 
     this.isConnected() ? 'Ask me anything...' : 'Connecting...'
   );
@@ -97,7 +100,13 @@ export class AiChatComponent implements OnInit, OnDestroy {
       lastMessage.content += content;
       lastMessage.htmlContent = this.sanitizeAndRenderMarkdown(lastMessage.content);
       this.messages.set([...this.messages()]);
-      this.scrollToBottom();
+    } else {
+      this.messages.update(msgs => [...msgs, {
+        role: 'assistant',
+        content: content || 'Loading...',
+        htmlContent: this.sanitizeAndRenderMarkdown(content || ''),
+        isStreaming: true
+      }]);
     }
   }
 
@@ -123,7 +132,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
       this.messages.set([...this.messages()]);
     }
     this.isStreaming.set(false);
-    this.scrollToBottom();
+    this.onScroll();
   }
 
   sendMessage() {
@@ -173,24 +182,27 @@ export class AiChatComponent implements OnInit, OnDestroy {
     return this.sanitizer.sanitize(SecurityContext.HTML, rawHtml) || '';
   }
 
-  private scrollToBottom(): void {
-    // Wait for DOM update and then scroll
-    requestAnimationFrame(() => {
-      const element = this.messageContainer?.nativeElement;
-      if (!element) return;
-      
-      // Check if user has scrolled up
-      const isScrolledToBottom = element.scrollHeight - element.clientHeight <= element.scrollTop + 150;
-      
-      // Only auto-scroll if near bottom or is streaming
-      if (isScrolledToBottom || this.isStreaming()) {
-        setTimeout(() => {
-          element.scrollTo({
-            top: element.scrollHeight,
-            behavior: 'smooth'
-          });
-        }, 100);
-      }
+  onScroll() {
+    const element = this.messageContainer?.nativeElement;
+    if (!element) return;
+    
+    const threshold = 100; // Increased threshold
+    const distanceFromBottom = element.scrollHeight - element.clientHeight - element.scrollTop;
+    this.showScrollButton.set(distanceFromBottom > threshold);
+  }
+
+  scrollToBottom(force: boolean = false): void {
+    const element = this.messageContainer?.nativeElement;
+    if (!element) return;
+    
+    element.scrollTo({
+      top: element.scrollHeight,
+      behavior: 'smooth'
     });
+    
+    // Add small delay before hiding button
+    setTimeout(() => {
+      this.showScrollButton.set(false);
+    }, 100);
   }
 }
