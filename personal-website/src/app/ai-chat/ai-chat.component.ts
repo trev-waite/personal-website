@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { WebSocketService, WebSocketMessage } from './services/websocket.service';
+import { ChatWebSocketService } from './services/chat-websocket.service';
+import { WebSocketMessage } from '../shared/services/base-websocket.service';
 import { Subject, takeUntil, timer, retry, catchError, interval } from 'rxjs';
 
 interface ChatMessage {
@@ -47,7 +48,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private wsService: WebSocketService
+    private wsService: ChatWebSocketService  // Updated service
   ) {
     marked.setOptions({
       gfm: true,

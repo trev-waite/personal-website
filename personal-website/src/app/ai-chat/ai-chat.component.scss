@@ -6,15 +6,18 @@
   flex-direction: column;
   background-color: $base-black;
   color: $base-cream;
-  margin: 0 auto; // Center the container
-  max-width: 1200px; // Maximum width on large screens
-  width: 100%; // Full width on mobile
-  padding: 0 1rem; // Add some padding on the sides
-  position: relative;
+  margin: 0 auto;
+//   max-width: 1200px; // Maximum width on large screens
+//   width: 100%; // Full width on mobile
+//   padding: 0 1rem; // Add some padding on the sides
+//   position: relative;
 
+@media (max-width: 768px) {
+    width: 100%;
+  }
   @media (min-width: 768px) {
-    padding: 0 2rem; // More padding on larger screens
-    width: 85%; // Slightly narrower on desktop
+    // padding: 0 2rem; // More padding on larger screens
+    // width: 85%; // Slightly narrower on desktop
   }
 }
 
