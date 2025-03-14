@@ -7,10 +7,8 @@
   background-color: $base-black;
   color: $base-cream;
   margin: 0 auto;
-//   max-width: 1200px; // Maximum width on large screens
-//   width: 100%; // Full width on mobile
-//   padding: 0 1rem; // Add some padding on the sides
-//   position: relative;
+  max-width: 900px; // New max-width for narrower chat
+  margin: 0 auto;   // Center the chat container
 
 @media (max-width: 768px) {
     width: 100%;
@@ -234,10 +232,10 @@
 }
 
 .scroll-button {
-  position: absolute;  // Change from fixed to absolute
-  bottom: 110px;       // Adjust distance from bottom
-  left: 50%;          // Center horizontally
-  transform: translateX(-50%);  // Center adjustment
+  position: fixed;       // Change from absolute to fixed
+  right: 20px;           // Position at the right edge with some padding
+  bottom: 110px;         // Keep the same bottom distance
+  transform: none;       // Remove horizontal centering transform
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
