@@ -37,6 +37,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   private isAtBottom = true;
   showScrollButton = signal<boolean>(false);
+  autoScrollEnabled = signal<boolean>(true); // new property
 
   readonly placeholderText = computed(() => 
     this.isConnected() ? 'Ask me anything...' : 'Connecting...'
@@ -108,6 +109,10 @@ export class AiChatComponent implements OnInit, OnDestroy {
         htmlContent: this.sanitizeAndRenderMarkdown(content),
         isStreaming: true
       }]);
+    }
+    // Auto-scroll if enabled
+    if (this.autoScrollEnabled()) {
+      this.scrollToBottom();
     }
   }
 
@@ -189,10 +194,19 @@ export class AiChatComponent implements OnInit, OnDestroy {
     
     const threshold = 100; // Increased threshold
     const distanceFromBottom = element.scrollHeight - element.clientHeight - element.scrollTop;
-    this.showScrollButton.set(distanceFromBottom > threshold);
+    if (distanceFromBottom > threshold) {
+      this.autoScrollEnabled.set(false);
+      this.showScrollButton.set(true);
+    } else {
+      this.autoScrollEnabled.set(true);
+      this.showScrollButton.set(false);
+    }
   }
 
   scrollToBottom(force: boolean = false): void {
+    if (force) {
+      this.autoScrollEnabled.set(true);
+    }
     const element = this.messageContainer?.nativeElement;
     if (!element) return;
     
@@ -201,9 +215,10 @@ export class AiChatComponent implements OnInit, OnDestroy {
       behavior: 'smooth'
     });
     
-    // Add small delay before hiding button
-    setTimeout(() => {
-      this.showScrollButton.set(false);
-    }, 100);
+    if (this.autoScrollEnabled()) {
+      setTimeout(() => {
+        this.showScrollButton.set(false);
+      }, 100);
+    }
   }
 }
