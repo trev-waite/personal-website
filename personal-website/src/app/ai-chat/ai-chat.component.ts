@@ -104,8 +104,8 @@ export class AiChatComponent implements OnInit, OnDestroy {
     } else {
       this.messages.update(msgs => [...msgs, {
         role: 'assistant',
-        content: content || 'Loading...',
-        htmlContent: this.sanitizeAndRenderMarkdown(content || ''),
+        content: content,
+        htmlContent: this.sanitizeAndRenderMarkdown(content),
         isStreaming: true
       }]);
     }

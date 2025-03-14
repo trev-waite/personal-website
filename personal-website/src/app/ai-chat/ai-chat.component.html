@@ -14,7 +14,7 @@
            [class.loading]="message.isStreaming">
         <div class="message-content">
           <div [innerHTML]="message.htmlContent"></div>
-          <div class="typing-indicator" *ngIf="message.isStreaming">
+          <div class="typing-indicator" *ngIf="message.isStreaming && !message.content">
             <div class="dots">
               <span></span><span></span><span></span>
             </div>
