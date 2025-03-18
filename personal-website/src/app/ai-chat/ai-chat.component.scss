@@ -231,24 +231,24 @@
   }
 }
 
-.scroll-button {
-  position: fixed;       // Change from absolute to fixed
-  right: 20px;           // Position at the right edge with some padding
-  bottom: 110px;         // Keep the same bottom distance
-  transform: none;       // Remove horizontal centering transform
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.scroll-button-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;  // Align to right side of chat container
+  padding: 0 1rem;            // Adjust horizontal padding if needed
+  margin-bottom: 1rem; // Added margin to separate from the input container
+}
+
+.scroll-button {
+  position: relative;
   width: 40px;
   height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
-
+  
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateX(-50%) scale(1.1);  // Add slight scale on hover
+    background-color: rgba(255, 255, 255, 0.15);  // Less powerful hover effect
+    transform: scale(1.05);
   }
 
   mat-icon {

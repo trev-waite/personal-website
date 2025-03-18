@@ -1,7 +1,7 @@
 <div class="chat-container">
   <div class="chat-header">
     <h2>AI Assistant</h2>
-    <div class="connection-status" [class.connected]="isConnected()">
+    <div class="connection-status" [class.connected]="connectionStatus() === 'Connected'">
       {{ statusText() }}
     </div>
   </div>
@@ -24,24 +24,26 @@
     </div>
   </div>
 
-  <button *ngIf="showScrollButton()"
-          mat-mini-fab 
-          class="scroll-button"
-          [class.visible]="showScrollButton()"
-          (click)="scrollToBottom(true)"
-          aria-label="Scroll to bottom">
-    <mat-icon>arrow_downward</mat-icon>
-  </button>
-
+  <!-- New container for scroll down button -->
+  <div class="scroll-button-container">
+    <button *ngIf="showScrollButton()"
+            mat-mini-fab 
+            class="scroll-button"
+            (click)="scrollToBottom(true)"
+            aria-label="Scroll to bottom">
+      <mat-icon>arrow_downward</mat-icon>
+    </button>
+  </div>
+  
   <div class="input-container">
     <input type="text" 
            [placeholder]="placeholderText()"
            [(ngModel)]="currentMessage"
            (keyup.enter)="sendMessage()"
-           [disabled]="!isConnected() || isStreaming()">
+           [disabled]="connectionStatus() !== 'Connected' || isStreaming()">
     <button mat-icon-button 
             (click)="sendMessage()"
-            [disabled]="!isConnected() || isStreaming() || !currentMessage()">
+            [disabled]="connectionStatus() !== 'Connected' || isStreaming() || !currentMessage()">
       <mat-icon>send</mat-icon>
     </button>
   </div>

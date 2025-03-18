@@ -21,7 +21,6 @@ export abstract class BaseWebSocketService {
   private readonly KEEPALIVE_INTERVAL = 30000;
 
   connectionStatus$ = new Subject<string>();
-  isConnected$ = new Subject<boolean>();
   messageReceived$ = new Subject<WebSocketMessage>();
 
   abstract getEndpoint(): string;
@@ -101,14 +100,12 @@ export abstract class BaseWebSocketService {
   }
 
   private handleConnection() {
-    this.isConnected$.next(true);
     this.connectionStatus$.next('Connected');
     this.reconnectAttempts = 0;
     this.setupKeepalive();
   }
 
   private handleDisconnection(event: CloseEvent) {
-    this.isConnected$.next(false);
     this.connectionStatus$.next(`Disconnected (${event.code})`);
     this.clearKeepalive();
     if (event.code !== 1000) {

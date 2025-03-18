@@ -30,21 +30,19 @@ export class AiChatComponent implements OnInit, OnDestroy {
   
   messages = signal<ChatMessage[]>([]);
   currentMessage = signal<string>('');
-  isConnected = signal<boolean>(false);
   isStreaming = signal<boolean>(false);
 
   connectionStatus = signal<string>('Disconnected');
 
   private isAtBottom = true;
   showScrollButton = signal<boolean>(false);
-  autoScrollEnabled = signal<boolean>(true); // new property
 
   readonly placeholderText = computed(() => 
-    this.isConnected() ? 'Ask me anything...' : 'Connecting...'
+    this.connectionStatus() === 'Connected' ? 'Ask me anything...' : 'Connecting...'
   );
 
   readonly statusText = computed(() => 
-    this.isConnected() ? 'Connected' : this.connectionStatus()
+    this.connectionStatus()
   );
 
   constructor(
@@ -63,18 +61,15 @@ export class AiChatComponent implements OnInit, OnDestroy {
   }
 
   private setupWebSocketListeners() {
-    this.wsService.isConnected$.pipe(
+    this.wsService.connectionStatus$.pipe(
       takeUntil(this.destroy$)
-    ).subscribe(connected => {
-      console.log('Connection status changed:', connected);
-      this.isConnected.set(connected);
-    });
-
-    this.wsService.connectionStatus$.subscribe(status => {
+    ).subscribe(status => {
       this.connectionStatus.set(status);
     });
 
-    this.wsService.messageReceived$.subscribe(message => {
+    this.wsService.messageReceived$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(message => {
       this.handleMessage(message);
     });
   }
@@ -110,10 +105,6 @@ export class AiChatComponent implements OnInit, OnDestroy {
         isStreaming: true
       }]);
     }
-    // Auto-scroll if enabled
-    if (this.autoScrollEnabled()) {
-      this.scrollToBottom();
-    }
   }
 
   private handleErrorMessage() {
@@ -128,7 +119,6 @@ export class AiChatComponent implements OnInit, OnDestroy {
       isStreaming: false
     }]);
     this.isStreaming.set(false);
-    this.scrollToBottom();
   }
 
   private handleStreamEnd() {
@@ -143,8 +133,8 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     const message = this.currentMessage().trim();
-    if (!message || !this.isConnected() || this.isStreaming()) {
-      console.log('Message not sent. Connected:', this.isConnected(), 'Streaming:', this.isStreaming());
+    if (!message || this.connectionStatus() !== 'Connected' || this.isStreaming()) {
+      console.log('Message not sent. Connected:', this.connectionStatus() === 'Connected', 'Streaming:', this.isStreaming());
       return;
     }
     
@@ -173,7 +163,6 @@ export class AiChatComponent implements OnInit, OnDestroy {
       // Reset input and set streaming
       this.currentMessage.set('');
       this.isStreaming.set(true);
-      this.scrollToBottom();
     } catch (error) {
       console.error('Component: Error sending message:', error);
     }
@@ -181,6 +170,8 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.wsService.disconnect();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private sanitizeAndRenderMarkdown(content: string): string {
@@ -195,18 +186,13 @@ export class AiChatComponent implements OnInit, OnDestroy {
     const threshold = 100; // Increased threshold
     const distanceFromBottom = element.scrollHeight - element.clientHeight - element.scrollTop;
     if (distanceFromBottom > threshold) {
-      this.autoScrollEnabled.set(false);
       this.showScrollButton.set(true);
     } else {
-      this.autoScrollEnabled.set(true);
       this.showScrollButton.set(false);
     }
   }
 
   scrollToBottom(force: boolean = false): void {
-    if (force) {
-      this.autoScrollEnabled.set(true);
-    }
     const element = this.messageContainer?.nativeElement;
     if (!element) return;
     
@@ -214,11 +200,5 @@ export class AiChatComponent implements OnInit, OnDestroy {
       top: element.scrollHeight,
       behavior: 'smooth'
     });
-    
-    if (this.autoScrollEnabled()) {
-      setTimeout(() => {
-        this.showScrollButton.set(false);
-      }, 100);
-    }
   }
 }
