@@ -134,6 +134,18 @@ export class AiChatComponent implements OnInit, OnDestroy {
     this.onScroll();
   }
 
+  private scrollToMessage(index: number): void {
+    setTimeout(() => {
+      const element = this.messageContainer?.nativeElement;
+      if (!element) return;
+      
+      const messages = element.getElementsByClassName('message-wrapper');
+      if (messages && messages[index]) {
+        messages[index].scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100); // Small delay to ensure DOM is updated
+  }
+
   sendMessage() {
     const message = this.currentMessage().trim();
     if (!message || this.connectionStatus() !== 'Connected' || this.isStreaming()) {
@@ -158,6 +170,9 @@ export class AiChatComponent implements OnInit, OnDestroy {
         isStreaming: true,
         timestamp: new Date()
       }]);
+      
+      // Scroll to the new assistant message
+      this.scrollToMessage(this.messages().length - 1);
    
       // Send via WebSocket
       this.wsService.sendMessage({ 
