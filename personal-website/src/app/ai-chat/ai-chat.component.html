@@ -15,6 +15,12 @@
         <div class="message-content">
           <!-- Single container for all message content -->
           <div [innerHTML]="message.htmlContent"></div>
+          <button *ngIf="!message.isStreaming" 
+                  mat-icon-button 
+                  class="copy-button"
+                  (click)="copyMessage(message)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
           <!-- Show typing indicator only while streaming -->
           <span *ngIf="message.role === 'assistant' && message.isStreaming" class="typing-indicator">
             <div class="dots">

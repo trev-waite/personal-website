@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ChatWebSocketService } from './services/chat-websocket.service';
 import { WebSocketMessage } from '../shared/services/base-websocket.service';
 import { Subject, takeUntil, timer, retry, catchError, interval } from 'rxjs';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 interface ChatMessage {
   role: 'user' | 'assistant' | 'error';
@@ -48,7 +49,8 @@ export class AiChatComponent implements OnInit, OnDestroy {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private wsService: ChatWebSocketService  // Updated service
+    private wsService: ChatWebSocketService,
+    private clipboard: Clipboard
   ) {
     marked.setOptions({
       gfm: true,
@@ -217,5 +219,19 @@ export class AiChatComponent implements OnInit, OnDestroy {
       top: element.scrollHeight,
       behavior: 'smooth'
     });
+  }
+
+  copyMessage(message: ChatMessage): void {
+    this.clipboard.copy(message.content);
+    
+    // Visual feedback on the button
+    const buttons = document.getElementsByClassName('copy-button');
+    for (let i = 0; i < buttons.length; i++) {
+      const button = buttons[i] as HTMLElement;
+      button.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1)';
+      }, 200);
+    }
   }
 }
