@@ -13,26 +13,30 @@
            [class.error-message]="message.role === 'error'"
            [class.loading]="message.isStreaming">
         <div class="message-content">
+          <!-- Single container for all message content -->
           <div [innerHTML]="message.htmlContent"></div>
-          <div class="typing-indicator" *ngIf="message.isStreaming && !message.content">
+          <!-- Show typing indicator only while streaming -->
+          <span *ngIf="message.role === 'assistant' && message.isStreaming" class="typing-indicator">
             <div class="dots">
               <span></span><span></span><span></span>
             </div>
-          </div>
+          </span>
+        </div>
+        <div class="message-metadata">
+          <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- New container for scroll down button -->
-  <div class="scroll-button-container">
-    <button *ngIf="showScrollButton()"
-            mat-mini-fab 
-            class="scroll-button"
-            (click)="scrollToBottom(true)"
-            aria-label="Scroll to bottom">
-      <mat-icon>arrow_downward</mat-icon>
-    </button>
+    <!-- Moved scroll button inside messages-container -->
+    <div class="scroll-button-wrapper" *ngIf="showScrollButton()">
+      <button mat-mini-fab 
+              class="scroll-button"
+              (click)="scrollToBottom(true)"
+              aria-label="Scroll to bottom">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </div>
   </div>
   
   <div class="input-container">

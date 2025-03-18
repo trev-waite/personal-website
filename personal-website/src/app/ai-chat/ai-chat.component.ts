@@ -10,10 +10,11 @@ import { WebSocketMessage } from '../shared/services/base-websocket.service';
 import { Subject, takeUntil, timer, retry, catchError, interval } from 'rxjs';
 
 interface ChatMessage {
-  role: 'user' | 'assistant' | 'error';  // Add error role
+  role: 'user' | 'assistant' | 'error';
   content: string;
   isStreaming?: boolean;
   htmlContent?: string;
+  timestamp: Date;
 }
 
 @Component({
@@ -101,8 +102,9 @@ export class AiChatComponent implements OnInit, OnDestroy {
       this.messages.update(msgs => [...msgs, {
         role: 'assistant',
         content: content,
+        isStreaming: true,
         htmlContent: this.sanitizeAndRenderMarkdown(content),
-        isStreaming: true
+        timestamp: new Date()
       }]);
     }
   }
@@ -111,12 +113,13 @@ export class AiChatComponent implements OnInit, OnDestroy {
     // Remove any existing error messages
     this.messages.update(msgs => msgs.filter(m => m.role !== 'error'));
     
-    // Add new error message
+    // Add new error message with a timestamp
     this.messages.update(msgs => [...msgs, {
       role: 'error',
       content: 'Something broke :( please try again soon',
       htmlContent: 'Something broke :( please try again soon',
-      isStreaming: false
+      isStreaming: false,
+      timestamp: new Date()
     }]);
     this.isStreaming.set(false);
   }
@@ -139,19 +142,21 @@ export class AiChatComponent implements OnInit, OnDestroy {
     }
     
     try {
-      // Add user message
+      // Add user message with a timestamp
       this.messages.update(msgs => [...msgs, { 
         role: 'user', 
         content: message,
-        htmlContent: message
+        htmlContent: message,
+        timestamp: new Date()
       }]);
 
-      // Immediately add loading message
+      // Immediately add loading assistant message with a timestamp
       this.messages.update(msgs => [...msgs, {
         role: 'assistant',
         content: '',
         htmlContent: '',
-        isStreaming: true
+        isStreaming: true,
+        timestamp: new Date()
       }]);
    
       // Send via WebSocket
@@ -183,13 +188,10 @@ export class AiChatComponent implements OnInit, OnDestroy {
     const element = this.messageContainer?.nativeElement;
     if (!element) return;
     
-    const threshold = 100; // Increased threshold
+    const threshold = 150; // Increased threshold for earlier button appearance
     const distanceFromBottom = element.scrollHeight - element.clientHeight - element.scrollTop;
-    if (distanceFromBottom > threshold) {
-      this.showScrollButton.set(true);
-    } else {
-      this.showScrollButton.set(false);
-    }
+    
+    this.showScrollButton.set(distanceFromBottom > threshold);
   }
 
   scrollToBottom(force: boolean = false): void {

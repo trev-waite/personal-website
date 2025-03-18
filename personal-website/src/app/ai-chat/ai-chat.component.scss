@@ -10,7 +10,7 @@
   max-width: 900px; // New max-width for narrower chat
   margin: 0 auto;   // Center the chat container
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
   @media (min-width: 768px) {
@@ -54,6 +54,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative; // Add this to contain absolute positioned elements
 
   .message-wrapper {
     display: flex;
@@ -96,6 +97,24 @@
       font-style: italic;
       font-size: 1em;
     }
+
+    .message-metadata {
+      margin-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+      
+      .message-time {
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+  
+  // New style for the message timestamp
+  .message-time {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.5rem;
   }
 }
 
@@ -231,27 +250,27 @@
   }
 }
 
-.scroll-button-container {
-  display: flex;
-  justify-content: flex-end;  // Align to right side of chat container
-  padding: 0 1rem;            // Adjust horizontal padding if needed
-  margin-bottom: 1rem; // Added margin to separate from the input container
-}
-
-.scroll-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+.scroll-button-wrapper {
+  position: fixed;  // Changed from absolute to fixed
+  bottom: 100px;   // Adjusted to sit above the input container
+  right: calc((100% - 900px) / 2 + 16px);  // Align with chat container
+  z-index: 1000;   // Increased z-index
   
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.15);  // Less powerful hover effect
-    transform: scale(1.05);
+  @media (max-width: 900px) {
+    right: 16px;  // Fallback for smaller screens
   }
 
-  mat-icon {
-    color: $base-cream;
+  .scroll-button {
+    background-color: $base-cream;
+    opacity: 0.9;
+    
+    &:hover {
+      opacity: 1;
+      background-color: $base-cream;
+    }
+
+    .mat-icon {
+      color: $base-black;
+    }
   }
 }
