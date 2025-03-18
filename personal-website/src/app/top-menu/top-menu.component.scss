@@ -3,3 +3,8 @@
     top: 10px;
     left: 10px;
 }
+.vertical-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

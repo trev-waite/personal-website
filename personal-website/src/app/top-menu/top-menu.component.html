@@ -1,9 +1,14 @@
-<div class="menu">
+<div class="menu vertical-menu">
+    <a [routerLink]="['/']">
+        <button mat-icon-button aria-label="Home">
+            <mat-icon>home</mat-icon>
+        </button>
+    </a>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu with links">
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <a href="/">
+        <a [routerLink]="['/']">
             <button mat-menu-item>
                 <mat-icon>home</mat-icon>
                 <span>Home</span>
