@@ -8,12 +8,30 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <a [routerLink]="['/']">
-            <button mat-menu-item>
-                <mat-icon>home</mat-icon>
-                <span>Home</span>
-            </button>
-        </a>
+        <button mat-menu-item routerLink="/">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </button>
+        <button mat-menu-item routerLink="/f1-data" color="$base-black" aria-label="Button to F1 Data">
+            <mat-icon>directions_car</mat-icon>
+            <span>F1 Data Tool</span>
+        </button>
+        <button mat-menu-item routerLink="/smiley-face" color="$base-black" aria-label="Button to Smiley Face Component">
+            <mat-icon>sentiment_satisfied</mat-icon>
+            <span>Smiley Face Tool</span>
+        </button>
+        <button mat-menu-item routerLink="/racing-game" color="$base-black" aria-label="Button to Racing Game">
+            <mat-icon>sports_score</mat-icon>
+            <span>Racing Game</span>
+        </button>
+        <button mat-menu-item routerLink="/ai-chat" color="$base-black" aria-label="Button to AI Chat">
+            <mat-icon>chat</mat-icon>
+            <span>AI Chat</span>
+        </button>
+        <button mat-menu-item routerLink="/ai-chat-v2" color="$base-black" aria-label="Button to AI Chat V2">
+            <mat-icon>chat</mat-icon>
+            <span>AI Chat V2</span>
+        </button>
         <button mat-menu-item>
             <mat-icon>code</mat-icon>
             <span>Source code</span>
