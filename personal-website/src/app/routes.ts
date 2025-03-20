@@ -6,7 +6,7 @@ export const routes: Routes = [{
 },
 {
     path: 'f1-data',
-    loadChildren: () => import('./f1-data/f1DataComponent/f1-data.component').then(m => m.F1DataComponent)
+    loadComponent: () => import('./f1-data/f1DataComponent/f1-data.component').then(m => m.F1DataComponent)
 },
 {
     path: 'smiley-face',

@@ -11,6 +11,7 @@ import { RaceChatWebSocketService } from '../services/race-chat-websocket.servic
 import { marked } from 'marked';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { DisplayChatMessage, MessageFromAsssistant } from 'src/app/shared/interfaces/models';
+import { RACES } from './constants/races';
 
 @Component({
     selector: 'app-f1-data',
@@ -21,6 +22,8 @@ import { DisplayChatMessage, MessageFromAsssistant } from 'src/app/shared/interf
 })
 export class F1DataComponent {
   DRIVER_NAMES = DRIVER_NAMES;
+  RACES = RACES;
+  race = signal<string>('');
   @ViewChild('messageContainer') messageContainer!: ElementRef;
   
   private destroy$ = new Subject<void>();
@@ -171,7 +174,7 @@ export class F1DataComponent {
       this.scrollToMessage(this.messages().length - 1);
    
       // Send via WebSocket
-      this.wsService.sendMessage(message);
+      this.wsService.sendMessage(message, this.race());
       
       // Reset input and set streaming
       this.currentMessage.set('');

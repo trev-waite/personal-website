@@ -1,27 +1,27 @@
-@if(false) {
+@if (true) {
     <div class="inputContainer">
         <!-- <h4>Driver 1</h4> -->
-        <mat-form-field>
+        <!-- <mat-form-field>
             <mat-label>Driver</mat-label>
             <mat-select>
                 <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
                     {{driver}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
-        <mat-form-field>
+        </mat-form-field> -->
+        <!-- <mat-form-field>
             <mat-label>Year</mat-label>
             <mat-select>
                 <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
                     {{driver}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field>
             <mat-label>Race</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
-                    {{driver}}
+            <mat-select [(value)]="race">
+                <mat-option *ngFor="let race of RACES" [value]="race">
+                    {{race}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
