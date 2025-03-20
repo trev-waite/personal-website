@@ -1,22 +1,5 @@
-@if (true) {
-    <div class="inputContainer">
-        <!-- <h4>Driver 1</h4> -->
-        <!-- <mat-form-field>
-            <mat-label>Driver</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
-                    {{driver}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
-        <!-- <mat-form-field>
-            <mat-label>Year</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
-                    {{driver}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
+@if (!showChat()) {
+    <div class="inputContainer" [class.compact]="showChat()">
         <mat-form-field>
             <mat-label>Race</mat-label>
             <mat-select [(value)]="race">
@@ -25,7 +8,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-flat-button>Get Data</button>
+        <button mat-flat-button [disabled]="!race()" (click)="getData()">Get Data</button>
     </div>
 } @else {
     <div class="chat-container">

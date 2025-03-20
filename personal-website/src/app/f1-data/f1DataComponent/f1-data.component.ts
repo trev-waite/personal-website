@@ -45,6 +45,8 @@ export class F1DataComponent {
     this.connectionStatus()
   );
 
+  showChat = signal<boolean>(false);
+
   constructor(
     private sanitizer: DomSanitizer,
     private wsService: RaceChatWebSocketService,
@@ -227,5 +229,10 @@ export class F1DataComponent {
         button.style.transform = 'scale(1)';
       }, 200);
     }
+  }
+
+  getData() {
+    if (!this.race()) return;
+    this.showChat.set(true);
   }
 }
