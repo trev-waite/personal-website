@@ -75,11 +75,24 @@ h4 {
 
 .chat-header {
   padding: 1.5rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   display: flex;
-  justify-content: center; // Center the title
+  justify-content: center;
   align-items: center;
+  background-color: $base-black;
+  z-index: 2;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient($base-black, transparent);
+    pointer-events: none;
+  }
 
   h2 {
     margin: 0;
