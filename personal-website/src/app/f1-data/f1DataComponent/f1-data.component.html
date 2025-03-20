@@ -1,29 +1,92 @@
-<div class="inputContainer">
-
-    <!-- <h4>Driver 1</h4> -->
-    <mat-form-field>
-        <mat-label>Driver</mat-label>
-        <mat-select>
-            <mat-option *ngFor="let driver of driverNames" [value]="driver">
-                {{driver}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Year</mat-label>
-        <mat-select>
-            <mat-option *ngFor="let driver of driverNames" [value]="driver">
-                {{driver}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Race</mat-label>
-        <mat-select>
-            <mat-option *ngFor="let driver of driverNames" [value]="driver">
-                {{driver}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <button mat-flat-button>Get Data</button>
-</div>
+@if(false) {
+    <div class="inputContainer">
+        <!-- <h4>Driver 1</h4> -->
+        <mat-form-field>
+            <mat-label>Driver</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
+                    {{driver}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Year</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
+                    {{driver}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Race</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let driver of DRIVER_NAMES" [value]="driver">
+                    {{driver}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button>Get Data</button>
+    </div>
+} @else {
+    <div class="chat-container">
+        <div class="chat-header">
+          <h2>AI Assistant</h2>
+          <div class="connection-status" [class.connected]="connectionStatus() === 'Connected'">
+            {{ statusText() }}
+          </div>
+        </div>
+      
+        <div class="messages-container" #messageContainer (scroll)="onScroll()">
+          <div class="message-wrapper" *ngFor="let message of messages()">
+            <div class="message" [class.user-message]="message.role === 'user'"
+                 [class.assistant-message]="message.role === 'assistant'"
+                 [class.error-message]="message.role === 'error'"
+                 [class.loading]="message.isStreaming">
+              <div class="message-content">
+                <!-- Single container for all message content -->
+                <div [innerHTML]="message.htmlContent"></div>
+                <button *ngIf="!message.isStreaming" 
+                        mat-icon-button 
+                        class="copy-button"
+                        (click)="copyMessage(message)">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+                <!-- Show typing indicator only while streaming -->
+                <span *ngIf="message.role === 'assistant' && message.isStreaming" class="typing-indicator">
+                  <div class="dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                </span>
+              </div>
+              <div class="message-metadata">
+                <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Moved scroll button inside messages-container -->
+          <div class="scroll-button-wrapper" *ngIf="showScrollButton()">
+            <button mat-mini-fab 
+                    class="scroll-button"
+                    (click)="scrollToBottom(true)"
+                    aria-label="Scroll to bottom">
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="input-container">
+          <input type="text" 
+                 [placeholder]="placeholderText()"
+                 [(ngModel)]="currentMessage"
+                 (keyup.enter)="sendMessage()"
+                 [disabled]="connectionStatus() !== 'Connected' || isStreaming()">
+          <button mat-icon-button 
+                  (click)="sendMessage()"
+                  [disabled]="connectionStatus() !== 'Connected' || isStreaming() || !currentMessage()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+}

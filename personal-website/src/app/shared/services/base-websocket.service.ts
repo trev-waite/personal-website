@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Subject, timer } from 'rxjs';
 import { takeUntil, retry, catchError } from 'rxjs/operators';
-
-export interface WebSocketMessage {
-  type: 'fromClient' | 'fromSocket' | 'end' | 'ping' | 'error' | 'done';
-  content?: string;
-  timestamp?: number;
-}
+import { MessageFromAsssistant, MessageFromUser, RaceDataMessageFromUser } from '../interfaces/models';
 
 export abstract class BaseWebSocketService {
   protected socket$!: WebSocketSubject<any>;
@@ -21,7 +16,7 @@ export abstract class BaseWebSocketService {
   private readonly KEEPALIVE_INTERVAL = 30000;
 
   connectionStatus$ = new Subject<string>();
-  messageReceived$ = new Subject<WebSocketMessage>();
+  messageReceived$ = new Subject<MessageFromAsssistant>();
 
   abstract getEndpoint(): string;
 
@@ -38,27 +33,7 @@ export abstract class BaseWebSocketService {
       openObserver: { next: () => this.handleConnection() },
       closeObserver: { next: (event) => this.handleDisconnection(event) },
       serializer: (value) => JSON.stringify(value),
-      deserializer: (e) => {
-        try {
-          if (typeof e.data === 'string') {
-            if (e.data === '[DONE]') {
-              return { type: 'end' };
-            }
-            try {
-              return JSON.parse(e.data);
-            } catch {
-              return {
-                type: 'error',
-                content: e.data
-              };
-            }
-          }
-          return e.data;
-        } catch (error) {
-          console.error('Error deserializing message:', error);
-          return e.data;
-        }
-      }
+      deserializer: (e) => JSON.parse(e.data)
     });
 
     this.setupSocketSubscription();
@@ -78,7 +53,7 @@ export abstract class BaseWebSocketService {
     });
   }
 
-  sendMessage(message: WebSocketMessage) {
+  sendMessage(prompt: string, race?: string) {
     try {
       if (!this.socket$) {
         console.error('WebSocketService: Socket not initialized');
@@ -86,11 +61,41 @@ export abstract class BaseWebSocketService {
       }
       
       this.lastMessageWasError = false;
+      let formattedMessage: MessageFromUser | RaceDataMessageFromUser;
+      if (race) { 
+        formattedMessage = {
+          role: `user`,
+          prompt: prompt,
+          timestamp: Date.now(),
+          race: race
+        } as RaceDataMessageFromUser;
+      } else {
+        formattedMessage = {
+          role: `user`,
+          prompt: prompt,
+          timestamp: Date.now()
+        } as MessageFromUser;
+      }
+      
+      this.socket$.next(formattedMessage);
+    } catch (error) {
+      console.error('WebSocketService: Error sending message:', error);
+      this.connectionStatus$.next('Error sending message');
+    }
+  }
+
+  sendPingMessage() {
+    try {
+      if (!this.socket$) {
+        console.error('WebSocketService: Socket not initialized');
+        return;
+      }
       const formattedMessage = {
-        type: message.type,
-        content: message.content,
-        timestamp: Date.now()
-      };
+          role: `ping`,
+          prompt: '',
+          timestamp: Date.now()
+        } as MessageFromUser;
+
       
       this.socket$.next(formattedMessage);
     } catch (error) {
@@ -113,34 +118,20 @@ export abstract class BaseWebSocketService {
     }
   }
 
-  private handleMessage(response: any) {
-    const message = this.parseMessage(response);
-    if (message) {
-      if (message.type === 'error' && this.lastMessageWasError) {
+  private handleMessage(response: MessageFromAsssistant) {
+    if (response) {
+      if (response.role === 'error' && this.lastMessageWasError) {
         return;
       }
-      this.lastMessageWasError = message.type === 'error';
-      this.messageReceived$.next(message);
-    }
-  }
-
-  private parseMessage(response: WebSocketMessage): WebSocketMessage | null {
-    console.log('Received message:', response);
-    try {
-      if (response.type === 'error') {
-        throw new Error(response.content);
-      }
-      return response;
-    } catch (error) {
-      console.error('Error parsing message:', error);
-      return response;
+      this.lastMessageWasError = response.role === 'error';
+      this.messageReceived$.next(response);
     }
   }
 
   private setupKeepalive() {
     this.clearKeepalive();
     this.keepaliveInterval = setInterval(() => {
-      this.sendMessage({ type: 'ping', timestamp: Date.now() });
+      this.sendPingMessage();
     }, this.KEEPALIVE_INTERVAL);
   }
 

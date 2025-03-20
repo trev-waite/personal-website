@@ -6,17 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ChatWebSocketService } from './services/chat-websocket.service';
-import { WebSocketMessage } from '../shared/services/base-websocket.service';
 import { Subject, takeUntil, timer, retry, catchError, interval } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard';
-
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'error';
-  content: string;
-  isStreaming?: boolean;
-  htmlContent?: string;
-  timestamp: Date;
-}
+import { DisplayChatMessage, MessageFromAsssistant } from '../shared/interfaces/models';
 
 @Component({
   selector: 'app-ai-chat',
@@ -30,7 +22,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
   
   private destroy$ = new Subject<void>();
   
-  messages = signal<ChatMessage[]>([]);
+  messages = signal<DisplayChatMessage[]>([]);
   currentMessage = signal<string>('');
   isStreaming = signal<boolean>(false);
 
@@ -77,35 +69,34 @@ export class AiChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  private handleMessage(message: WebSocketMessage) {
-    switch (message.type) {
-      case 'fromSocket':
-        if (!message.content) return;
-        this.handleStreamMessage(message.content);
+  private handleMessage(message: MessageFromAsssistant) {
+    switch (message.role) {
+      case 'assistant':
+        if (!message.response) return;
+        this.handleStreamMessage(message);
         break;
 
       case 'error':
         this.handleErrorMessage();
         break;
-
-      case 'done':
-        this.handleStreamEnd();
-        break;
     }
   }
 
-  private handleStreamMessage(content: string) {
+  private handleStreamMessage(message: MessageFromAsssistant) {
     const lastMessage = this.messages()[this.messages().length - 1];
-    if (lastMessage?.isStreaming) {
-      lastMessage.content += content;
+    if (message.isDone) {
+      this.handleStreamEnd();
+      return;
+    } else if (lastMessage?.isStreaming) {
+      lastMessage.content += message.response;
       lastMessage.htmlContent = this.sanitizeAndRenderMarkdown(lastMessage.content);
       this.messages.set([...this.messages()]);
     } else {
       this.messages.update(msgs => [...msgs, {
         role: 'assistant',
-        content: content,
+        content: message.response,
         isStreaming: true,
-        htmlContent: this.sanitizeAndRenderMarkdown(content),
+        htmlContent: this.sanitizeAndRenderMarkdown(message.response),
         timestamp: new Date()
       }]);
     }
@@ -177,10 +168,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
       this.scrollToMessage(this.messages().length - 1);
    
       // Send via WebSocket
-      this.wsService.sendMessage({ 
-        type: 'fromClient', 
-        content: message 
-      });
+      this.wsService.sendMessage(message);
       
       // Reset input and set streaming
       this.currentMessage.set('');
@@ -221,7 +209,7 @@ export class AiChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  copyMessage(message: ChatMessage): void {
+  copyMessage(message: DisplayChatMessage): void {
     this.clipboard.copy(message.content);
     
     // Visual feedback on the button
