@@ -7,26 +7,36 @@
     <section>
         <h1 class="toolsHeader">stuff.</h1>
         <div #buttonDiv [ngClass]="{'hidden': !isTestButtonScrolledIntoView, 'shown': isTestButtonScrolledIntoView}" class="centeredButton">
-            <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
-                <mat-icon>directions_car</mat-icon>
-            </button>
-            <p>F1 Data Tool</p>
-            <button class="smiley-button" routerLink="/smiley-face" mat-fab color="$base-black" aria-label="Button to Smiley Face Component">
-                <mat-icon>sentiment_satisfied</mat-icon>
-            </button>
-            <p>Smiley Face Tool</p>
-            <button class="racing-button" routerLink="/racing-game" mat-fab color="$base-black" aria-label="Button to Racing Game">
-                <mat-icon>sports_score</mat-icon>
-            </button>
-            <p>Racing Game</p>
-            <button class="ai-chat-button" routerLink="/ai-chat" mat-fab color="$base-black" aria-label="Button to AI Chat">
-                <mat-icon>chat</mat-icon>
-            </button>
-            <p>AI Chat</p>
-            <button class="ai-chat-button" routerLink="/ai-chat-v2" mat-fab color="$base-black" aria-label="Button to AI Chat">
-                <mat-icon>chat</mat-icon>
-            </button>
-            <p>AI Chat V2</p>
+            <div class="button-container">
+                <button routerLink="/f1-data" mat-fab color="$base-black" aria-label="Button to F1 Data">
+                    <mat-icon>directions_car</mat-icon>
+                </button>
+                <p>F1 Data Tool</p>
+            </div>
+            <div class="button-container">
+                <button class="smiley-button" routerLink="/smiley-face" mat-fab color="$base-black" aria-label="Button to Smiley Face Component">
+                    <mat-icon>sentiment_satisfied</mat-icon>
+                </button>
+                <p>Smiley Face Tool</p>
+            </div>
+            <div class="button-container">
+                <button class="racing-button" routerLink="/racing-game" mat-fab color="$base-black" aria-label="Button to Racing Game">
+                    <mat-icon>sports_score</mat-icon>
+                </button>
+                <p>Racing Game</p>
+            </div>
+            <div class="button-container">
+                <button class="ai-chat-button" routerLink="/ai-chat" mat-fab color="$base-black" aria-label="Button to AI Chat">
+                    <mat-icon>chat</mat-icon>
+                </button>
+                <p>AI Chat</p>
+            </div>
+            <div class="button-container">
+                <button class="ai-chat-button" routerLink="/ai-chat-v2" mat-fab color="$base-black" aria-label="Button to AI Chat">
+                    <mat-icon>chat</mat-icon>
+                </button>
+                <p>AI Chat V2</p>
+            </div>
         </div>
         <div class="footerBox">
             <p>Made by Trevor Waite</p>

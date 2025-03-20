@@ -65,16 +65,39 @@
 }
 
 .centeredButton {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    gap: 60px;  // increased gap for more spacing
     margin-bottom: 200px;
     margin-top: -75px;
+    width: 100%;
+    max-width: 1200px;  // limit maximum width
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 120px;  // fixed width for each container
+    
     p {
         margin-top: 15px;
         color: $base-black;
+        width: 100%;  // ensure text uses full container width
+        font-size: 0.9em;  // slightly smaller font to fit better
     }
+}
 
+// Remove these as they're no longer needed
+.smiley-button,
+.racing-button,
+.ai-chat-button {
+    margin-top: 0;
 }
 
 .toolsHeader {
@@ -96,18 +119,6 @@
 
 a {
     text-decoration-line: none;
-}
-
-.smiley-button {
-    margin-top: 20px;
-}
-
-.racing-button {
-    margin-top: 20px;
-}
-
-.ai-chat-button {
-    margin-top: 20px;
 }
 
 
