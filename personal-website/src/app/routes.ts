@@ -6,7 +6,7 @@ export const routes: Routes = [{
 },
 {
     path: 'f1-data',
-    loadChildren: () => import('./f1-data/f1-data.module').then(m => m.F1DataModule)
+    loadComponent: () => import('./f1-data/f1DataComponent/f1-data.component').then(m => m.F1DataComponent)
 },
 {
     path: 'smiley-face',
@@ -19,10 +19,6 @@ export const routes: Routes = [{
 {
     path: 'ai-chat',
     loadComponent: () => import('./ai-chat/ai-chat.component').then(m => m.AiChatComponent)
-},
-{
-    path: 'ai-chat-v2',
-    loadComponent: () => import('./ai-chat-v2/ai-chat-v2.component').then(m => m.AiChatV2Component)
 },
 {
     path: '**', redirectTo: '',
